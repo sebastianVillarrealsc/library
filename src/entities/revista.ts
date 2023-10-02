@@ -2,6 +2,8 @@ import readline from "readline";
 import Biblioteca from "../service/biblioteca";
 
 class Revista {
+    private prestado: boolean = false;
+
     constructor(public id: number, public titulo: string, public autorEditor: string, public anoPublicacion: number) { }
 
     static crearNuevaRevista(rl: readline.Interface, biblioteca: Biblioteca) {
@@ -38,6 +40,21 @@ class Revista {
         }
     }
 
+    marcarComoPrestado() {
+        this.prestado = true;
+    }
+
+    estaPrestado() {
+        return this.prestado;
+    }
+
+    estaDisponible() {
+        return !this.prestado;
+    }
+
+    marcarComoDisponible() {
+        this.prestado = false;
+    }
 }
 
 export default Revista;

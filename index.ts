@@ -1,7 +1,10 @@
 import Libro from "./src/entities/libro";
+import Prestamo from "./src/entities/prestamo";
 import Revista from "./src/entities/revista";
 import Usuario from "./src/entities/usuario";
+import mostrarMenuDevoluciones from "./src/menu/menuDevoluciones";
 import mostrarMenuLibros from "./src/menu/menuLibros";
+import mostrarMenuPrestamos from "./src/menu/menuPrestamos";
 import mostrarMenuRevistas from "./src/menu/menuRevistas";
 import mostrarMenuUsuarios from "./src/menu/menuUsuarios";
 import Biblioteca from "./src/service/biblioteca";
@@ -21,6 +24,10 @@ const libro2 = new Libro(2, "Cien años de soledad", "Gabriel García Márquez",
 const revista1 = new Revista(1, "National Geographic", "National Geographic Society", 1888);
 const revista2 = new Revista(2, "Time", "Time Inc.", 1923);
 
+// Crear préstamos
+const prestamoLibro = new Prestamo(1, usuario1, libro1, new Date(), new Date());
+const prestamoRevista = new Prestamo(2, usuario1, revista1, new Date(), new Date());
+
 // Agregar usuarios, libros y revistas a la biblioteca
 biblioteca.agregarUsuario(usuario1);
 biblioteca.agregarUsuario(usuario2);
@@ -30,8 +37,6 @@ biblioteca.agregarLibro(libro2);
 
 biblioteca.agregarRevista(revista1);
 biblioteca.agregarRevista(revista2);
-
-export let menuActual: string = "Menú Principal";
 
 // Función para mostrar un menú de opciones
 export function mostrarMenu() {
@@ -52,7 +57,6 @@ const rl = readline.createInterface({
 });
 
 export function volverAlMenuPrincipal() {
-    menuActual = "Menú Principal";
     mostrarMenu();
     rl.question('Seleccione una opción: ', (nuevaOpcion: any) => {
         realizarAccion(nuevaOpcion);
@@ -62,22 +66,19 @@ export function volverAlMenuPrincipal() {
 async function realizarAccion(opcion: string) {
     switch (opcion) {
         case "1":
-            menuActual = "Usuarios";
             mostrarMenuUsuarios(rl, biblioteca);
             break;
         case "2":
-            menuActual = "Libros";
             mostrarMenuLibros(rl, biblioteca);
             break;
         case "3":
-            menuActual = "Revistas";
             mostrarMenuRevistas(rl, biblioteca);
             break;
         case "4":
-            // Aquí puedes implementar la lógica para realizar un préstamo
+            mostrarMenuPrestamos(rl, biblioteca);
             break;
         case "5":
-            // Aquí puedes implementar la lógica para realizar una devolución
+            mostrarMenuDevoluciones(rl, biblioteca);
             break;
         case "9":
             console.log("Saliendo del programa.");

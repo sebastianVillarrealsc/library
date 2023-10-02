@@ -2,6 +2,8 @@ import readline from "readline";
 import Biblioteca from "../service/biblioteca";
 
 class Libro {
+    private prestado: boolean = false;
+
     constructor(public id: number, public titulo: string, public autorEditor: string, public anoPublicacion: number) { }
 
     static crearNuevoLibro(rl: readline.Interface, biblioteca: Biblioteca) {
@@ -38,6 +40,25 @@ class Libro {
         }
     }
 
+    marcarComoPrestado() {
+        if (this.estaPrestado()) {
+            return false;
+        }
+        this.prestado = true;
+        return true;
+    }
+
+    estaPrestado() {
+        return this.prestado;
+    }
+
+    estaDisponible() {
+        return !this.prestado;
+    }
+
+    marcarComoDisponible() {
+        this.prestado = false;
+    }
 }
 
 export default Libro;
